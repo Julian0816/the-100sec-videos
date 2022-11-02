@@ -9,6 +9,12 @@ const getVideos = (req, res) => {
 // @route   POST /api/videos
 // @access  Private
 const setVideo = (req, res) => {
+
+    if(!req.body.text) {
+        res.status(400)
+        throw new Error('Please add a text field');
+    }
+
   res.status(200).json({ message: "Set video" });
 };
 

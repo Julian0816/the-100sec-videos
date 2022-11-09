@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/videos', require('./routes/videoRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 app.use(errorHandler); //Using the error handler, this will override the defult express error handler to manage the stack
 

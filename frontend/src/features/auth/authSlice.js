@@ -3,20 +3,19 @@ import authService from "./authService";
 
 // Get user from LocalStorage
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   user: user ? user : null,
-  user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: "",
+  message: '',
 };
 
 // Register user
 export const register = createAsyncThunk(
-  "auth/register",
+  'auth/register',
   async (user, thunkAPI) => {
     try {
       return await authService.register(user);
@@ -31,17 +30,33 @@ export const register = createAsyncThunk(
 );
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
-      state.message = "";
+      state.message = '';
     }, //We use this function to reset the values back to false
   },
-  extraReducers: () => {},
+  extraReducers: (builder) => {
+    builder
+    .addCase(register.pending, (state) => {
+        state.isLoading = true
+    })
+    .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.user = action.payload
+    })
+    .addCase(register.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.user = null
+    })
+  },
 });
 
 export const { reset } = authSlice.actions;

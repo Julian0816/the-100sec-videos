@@ -15,8 +15,22 @@ const createWorkout = async (workoutData, token) => {
     return response.data
 }
 
+// Get user workouts
+const getWorkouts = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
 const workoutService = {
-    createWorkout
+    createWorkout,
+    getWorkouts
 }
 
 export default workoutService

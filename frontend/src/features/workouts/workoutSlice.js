@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import workoutService from "./workoutService";
 
-
 const initialState = {
   workouts: [],
   isError: false,
@@ -15,8 +14,28 @@ export const createWorkout = createAsyncThunk(
   "workouts/create",
   async (workoutData, thunkAPI) => {
     try {
-        const token = thunkAPI.getState().auth.user.token
-        return await workoutService.createWorkout(workoutData, token)
+      const token = thunkAPI.getState().auth.user.token;
+      return await workoutService.createWorkout(workoutData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Gey user workouts
+export const getWorkouts = createAsyncThunk(
+  "workouts/getAll",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await workoutService.getWorkouts(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -38,22 +57,34 @@ export const workoutSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(createWorkout.pending, (state) => {
-        state.isLoading = true
-    })
-    .addCase(createWorkout.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.workouts.push(action.payload)
-    })
-    .addCase(createWorkout.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-    })
-    
-  }
+      .addCase(createWorkout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createWorkout.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.workouts.push(action.payload);
+      })
+      .addCase(createWorkout.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getWorkouts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getWorkouts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.workouts =action.payload;
+      })
+      .addCase(getWorkouts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
+  },
 });
 
-export const { reser } = workoutSlice.actions;
+export const { reset } = workoutSlice.actions;
 export default workoutSlice.reducer;

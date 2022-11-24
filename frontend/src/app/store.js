@@ -5,6 +5,6 @@ import workoutReducer from '../features/workouts/workoutSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    wirkouts: workoutReducer
+    workouts: workoutReducer
   },
 });

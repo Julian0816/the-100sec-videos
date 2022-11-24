@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import WorkoutForm from "../components/WorkoutForm";
+import WorkoutItem from "../components/WorkoutItem";
 import Spinner from "../components/Spinner";
 import React from "react";
 import { getWorkouts, reset } from "../features/workouts/workoutSlice";
@@ -29,7 +30,7 @@ function Dashboard() {
     return () => {
       dispatch(reset())
     }
-  }, [user, navigate]);
+  }, [user, navigate, dispatch, isError, message]);
 
   if(isLoading) {
     return <Spinner />
@@ -43,6 +44,16 @@ function Dashboard() {
       </section>
 
       <WorkoutForm />
+
+      <section className="content">
+        {workouts.length > 0 ? (
+          <div className="workouts">
+            {workouts.map((workout) => (
+              <WorkoutItem key={workout._id} workout={workout} />
+            ))}
+          </div>
+        ) : (<h3>You have not saved any workouts</h3>)}
+      </section>
     </>
   );
 }

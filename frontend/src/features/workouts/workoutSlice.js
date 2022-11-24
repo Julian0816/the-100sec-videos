@@ -49,6 +49,26 @@ export const getWorkouts = createAsyncThunk(
   }
 );
 
+// Delete user Wworkout
+export const deleteWorkout = createAsyncThunk(
+  "workouts/delete",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await workoutService.deleteWorkout(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const workoutSlice = createSlice({
   name: "workout",
   initialState,
@@ -76,9 +96,24 @@ export const workoutSlice = createSlice({
       .addCase(getWorkouts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.workouts =action.payload;
+        state.workouts = action.payload;
       })
       .addCase(getWorkouts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(deleteWorkout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteWorkout.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.workouts = state.workouts.filter(
+          (workout) => workout._id !== action.payload.id
+        );
+      })
+      .addCase(deleteWorkout.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

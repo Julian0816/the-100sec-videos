@@ -1,72 +1,107 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createWorkout } from '../features/workouts/workoutSlice'
+import { createWorkout } from "../features/workouts/workoutSlice";
 import React from "react";
 
 function WorkoutForm() {
-  const [text, setText] = useState("");
+  const [formData, setFormData] = useState({
+    mood: "",
+    activity: "",
+    sets: "",
+    reps: "",
+    weight: "",
+  });
 
-  const dispatch = useDispatch()
+  const { mood, activity, sets, reps, weight } = formData;
+
+  const dispatch = useDispatch();
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(createWorkout({text}))
-    setText('')
+    
+    dispatch(createWorkout(formData))
+    setFormData({
+      mood: "",
+      activity: "",
+      sets: "",
+      reps: "",
+      weight: "",
+    });
   };
 
   return (
-    <section className="form">
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="text">Mood</label>
-          <input
-            type="text"
-            name="mood"
-            id="mood"
-            value={text}
-            onChange={(e) => setText(e.target.mood)}
-          />
-          <label htmlFor="text">Activity</label>
-          <input
-            type="text"
-            name="activity"
-            id="activity"
-            value={text}
-            onChange={(e) => setText(e.target.activity)}
-          />
-          <label htmlFor="text">Sets</label>
-          <input
-            type="text"
-            name="sets"
-            id="sets"
-            value={text}
-            onChange={(e) => setText(e.target.sets)}
-          />
-          <label htmlFor="text">Reps</label>
-          <input
-            type="text"
-            name="reps"
-            id="reps"
-            value={text}
-            onChange={(e) => setText(e.target.reps)}
-          />
-          <label htmlFor="text">weight</label>
-          <input
-            type="text"
-            name="weight"
-            id="weight"
-            value={text}
-            onChange={(e) => setText(e.target.weight)}
-          />
-        </div>
-        <div className="form-group">
-          <button className="btn btn-block" type="submit">
-            Add Workout
-          </button>
-        </div>
-      </form>
-    </section>
+    <>
+      <section className="form">
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label htmlFor="text">Mood</label>
+            <input
+              type="text"
+              className="form-control"
+              id="mood"
+              name="mood"
+              value={mood}
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="text">Activity</label>
+            <input
+              type="text"
+              className="form-control"
+              id="activity"
+              name="activity"
+              value={activity}
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="text">Sets</label>
+            <input
+              className="form-control"
+              id="sets"
+              name="sets"
+              value={sets}
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="text">Reps</label>
+            <input
+              className="form-control"
+              id="reps"
+              type="text"
+              name="reps"
+              value={reps}
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="text">weight in Kg</label>
+            <input
+              className="form-control"
+              id="weight"
+              type="text"
+              name="weight"
+              value={weight}
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-block">
+              Add Workout
+            </button>
+          </div>
+        </form>
+      </section>
+    </>
   );
 }
 

@@ -18,18 +18,21 @@ function Dashboard() {
 
   useEffect(() => {
     if (isError) {
-      console.log(message)
+      console.log(message);
+      alert(message)
+      return;
     }
 
     if (!user) {
       navigate("/login");
+      return;
     }
 
-    dispatch(getWorkouts())
+    dispatch(getWorkouts());
 
     return () => {
-      dispatch(reset())
-    }
+      dispatch(reset());
+    };
   }, [user, navigate, dispatch, isError, message]);
 
   if(isLoading) {

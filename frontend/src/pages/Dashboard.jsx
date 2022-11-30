@@ -5,6 +5,7 @@ import WorkoutForm from "../components/WorkoutForm";
 import WorkoutItem from "../components/WorkoutItem";
 import Spinner from "../components/Spinner";
 import React from "react";
+import authService from "../features/auth/authService";
 import { getWorkouts, reset } from "../features/workouts/workoutSlice";
 
 function Dashboard() {
@@ -19,7 +20,11 @@ function Dashboard() {
   useEffect(() => {
     if (isError) {
       console.log(message);
-      alert(message)
+      // alert(message)
+
+      dispatch(authService.logout());
+      dispatch(authService.navigate("/"));
+
       return;
     }
 

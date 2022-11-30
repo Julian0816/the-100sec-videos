@@ -2,26 +2,26 @@ https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 ## Back-end
-node_modules/
-bcryptjs
-colors
-dotenv
-express
-express-async-handler
-jsonwebtoken
-mongoose
+### node_modules/
+### bcryptjs
+### colors
+### dotenv
+### express
+### express-async-handler
+### jsonwebtoken
+### mongoose
 
 ## Front-end
-node_modules/
-axios
-react
-react-dom
-react-icons
-react-redux
-react-router-dom
-react-scripts
-react-toastify
-web-vitals
+### node_modules/
+### axios
+### react
+### react-dom
+### react-icons
+### react-redux
+### react-router-dom
+### react-scripts
+### react-toastify
+### web-vitals
 
 # API documentation
 https://documenter.getpostman.com/view/22848624/2s8YekQa9S

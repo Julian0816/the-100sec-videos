@@ -1,30 +1,51 @@
 https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
+## Back-end
 node_modules/
-.pnp
-.pnp.js
+bcryptjs
+colors
+dotenv
+express
+express-async-handler
+jsonwebtoken
+mongoose
 
-# testing
-coverage/
+## Front-end
+node_modules/
+axios
+react
+react-dom
+react-icons
+react-redux
+react-router-dom
+react-scripts
+react-toastify
+web-vitals
+
+# API documentation
+https://documenter.getpostman.com/view/22848624/2s8YekQa9S
 
 # production
-dist/
-build/
-
-# misc
-.DS_Store
-.parcel-cache
-haters
-.env
-.vscode
-.cache
 
 # package managers
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.npmrc
+npm
 
-# sqlite
-*.sqlite
+# DataBase
+MongoDB
+
+# To run the app you will need the .env file, if you do have it:
+```
+npm install
+```
+At the root to install node modules in the back end
+
+```
+npm install
+```
+In the client file to install node modules for the front end
+
+```
+npm run dev
+```
+Will run both front-end and back-end thanks to concurrently
